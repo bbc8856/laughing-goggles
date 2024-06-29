@@ -1,0 +1,16 @@
+function FindProxyForURL(url, host) {
+    // 检查是否为学校教务系统域名
+    if (dnsDomainIs(host, "jwxt.cumt.edu.cn") ||
+        dnsDomainIs(host, "jwxk1.cumt.edu.cn") ||
+        dnsDomainIs(host, "jwxk2.cumt.edu.cn")) {
+        return "PROXY n1.cumter.ml:7890; PROXY w1.cumter.ml:7999; PROXY w2.cumter.ml:7590; SOCKS cn-hn-dx-2.natfrp.cloud:26308; SOCKS cn-sy-dx-1.natfrp.cloud:60459; SOCKS n1.cumter.ml:7891; PROXY n1.cumter.ml:7893; DIRECT;";
+    }
+    
+    // 特定内部网段使用特定代理
+    if (isInNet(host, "10.103.4.10", "255.255.255.0")) {
+        return "PROXY w1.cumter.ml:7999; DIRECT;";
+    }
+    
+    // 默认情况下直接连接
+    return "DIRECT";
+}
